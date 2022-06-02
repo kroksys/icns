@@ -22,16 +22,16 @@ import (
 	"image"
 )
 
-type img struct {
+type Img struct {
 	image.Image
 	format  *format
-	encoder string
+	Encoder string
 }
 
 // ICNS encapsulates the Apple Icon Image format specification.
 type ICNS struct {
 	minCompat, maxCompat Compatibility
-	assets               []*img
+	Assets               []*Img
 	unsupportedCodes     []uint32
 }
 
@@ -68,7 +68,7 @@ func NewICNS(opts ...Option) *ICNS {
 
 // ByResolution extracts an image from the icon, at the provided resolution.
 func (i *ICNS) ByResolution(r Resolution) (image.Image, error) {
-	for _, a := range i.assets {
+	for _, a := range i.Assets {
 		if a.format.res == r {
 			return a.Image, nil
 		}
@@ -76,10 +76,10 @@ func (i *ICNS) ByResolution(r Resolution) (image.Image, error) {
 	return nil, fmt.Errorf("no image by that resolution")
 }
 
-func (i *ICNS) highestResolutionAsset() (*img, error) {
+func (i *ICNS) highestResolutionAsset() (*Img, error) {
 	var res Resolution
-	var img *img
-	for _, a := range i.assets {
+	var img *Img
+	for _, a := range i.Assets {
 		if a.format.res > res {
 			res = a.format.res
 			img = a
@@ -122,7 +122,7 @@ func (i *ICNS) Add(im image.Image) error {
 			supported = true
 
 			var found bool
-			for _, a := range i.assets {
+			for _, a := range i.Assets {
 				if a.format == f {
 					found = true
 					a.Image = im
@@ -130,7 +130,7 @@ func (i *ICNS) Add(im image.Image) error {
 			}
 
 			if !found {
-				i.assets = append(i.assets, &img{
+				i.Assets = append(i.Assets, &Img{
 					Image:  im,
 					format: f,
 				})
@@ -148,9 +148,9 @@ func (i *ICNS) Add(im image.Image) error {
 // Info provides information about the ICNS
 func (i *ICNS) Info() string {
 	buf := new(bytes.Buffer)
-	fmt.Fprintf(buf, "%d images:\n", len(i.assets)+len(i.unsupportedCodes))
-	for _, a := range i.assets {
-		fmt.Fprintf(buf, "[%s] %s image with resolution %d\n", codeRepr(a.format.code), a.encoder, a.Image.Bounds().Dx())
+	fmt.Fprintf(buf, "%d images:\n", len(i.Assets)+len(i.unsupportedCodes))
+	for _, a := range i.Assets {
+		fmt.Fprintf(buf, "[%s] %s image with resolution %d\n", codeRepr(a.format.code), a.Encoder, a.Image.Bounds().Dx())
 	}
 	for _, c := range i.unsupportedCodes {
 		fmt.Fprintf(buf, "[%s] unsupported image format\n", codeRepr(c))

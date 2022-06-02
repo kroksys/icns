@@ -29,7 +29,7 @@ func Encode(w io.Writer, i *ICNS) error {
 	types := make([]uint32, 0)
 	var totalSize uint32 = 8
 
-	for _, a := range i.assets {
+	for _, a := range i.Assets {
 		encoder := a.format.codec.Encode
 		if encoder == nil {
 			continue

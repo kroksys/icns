@@ -35,7 +35,7 @@ func readICNS(r binary.Reader, metaOnly bool) (*ICNS, error) {
 	minCompat := Newest
 	maxCompat := Oldest
 
-	var assets []*img
+	var assets []*Img
 	masks := make(map[uint32]image.Image)
 
 	var unsupportedCodes []uint32
@@ -72,7 +72,7 @@ func readICNS(r binary.Reader, metaOnly bool) (*ICNS, error) {
 		}
 
 		if f, ok := supportedImageFormats[code]; ok {
-			asset := &img{
+			asset := &Img{
 				format: f,
 			}
 
@@ -93,7 +93,7 @@ func readICNS(r binary.Reader, metaOnly bool) (*ICNS, error) {
 				}
 
 				asset.Image = i
-				asset.encoder = enc
+				asset.Encoder = enc
 			}
 
 			assets = append(assets, asset)
@@ -115,7 +115,7 @@ func readICNS(r binary.Reader, metaOnly bool) (*ICNS, error) {
 	return &ICNS{
 		minCompat:        minCompat,
 		maxCompat:        maxCompat,
-		assets:           assets,
+		Assets:           assets,
 		unsupportedCodes: unsupportedCodes,
 	}, nil
 }
