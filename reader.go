@@ -15,7 +15,6 @@
 package icns
 
 import (
-	"bytes"
 	"fmt"
 	"image"
 	"image/draw"
@@ -80,13 +79,15 @@ func readICNS(r binary.Reader, metaOnly bool) (*ICNS, error) {
 			if !metaOnly {
 
 				// make a copy of data for later usage
-				buf := &bytes.Buffer{}
-				copySub := io.TeeReader(sub, buf)
-				data, err := ioutil.ReadAll(copySub)
-				if err != nil {
-					continue
-				}
-				asset.Data = data
+				dst := make([]byte, len(*sub))
+				copy(dst, *sub)
+				// buf := &bytes.Buffer{}
+				// copySub := io.TeeReader(sub, buf)
+				// data, err := ioutil.ReadAll(copySub)
+				// if err != nil {
+				// 	continue
+				// }
+				asset.Data = dst
 
 				i, enc, err := f.Codec.Decode(sub, f.Res)
 				if err != nil {
