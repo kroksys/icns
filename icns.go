@@ -26,6 +26,7 @@ type Img struct {
 	image.Image
 	Format  *Format
 	Encoder string
+	Data    []byte
 }
 
 // ICNS encapsulates the Apple Icon Image format specification.
