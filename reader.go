@@ -81,12 +81,6 @@ func readICNS(r binary.Reader, metaOnly bool) (*ICNS, error) {
 				// make a copy of data for later usage
 				dst := make([]byte, len(*sub))
 				copy(dst, *sub)
-				// buf := &bytes.Buffer{}
-				// copySub := io.TeeReader(sub, buf)
-				// data, err := ioutil.ReadAll(copySub)
-				// if err != nil {
-				// 	continue
-				// }
 				asset.Data = dst
 
 				i, enc, err := f.Codec.Decode(sub, f.Res)
