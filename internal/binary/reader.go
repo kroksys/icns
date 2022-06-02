@@ -18,7 +18,7 @@ import (
 	"encoding/binary"
 	"io"
 
-	"yrh.dev/icns/internal/utils"
+	"github.com/kroksys/icns/internal/utils"
 )
 
 type Reader []byte

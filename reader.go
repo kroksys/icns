@@ -21,7 +21,7 @@ import (
 	"io"
 	"io/ioutil"
 
-	"yrh.dev/icns/internal/binary"
+	"github.com/kroksys/icns/internal/binary"
 )
 
 func readICNS(r binary.Reader, metaOnly bool) (*ICNS, error) {

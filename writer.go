@@ -18,8 +18,8 @@ import (
 	"bytes"
 	"io"
 
-	"yrh.dev/icns/internal/binary"
-	"yrh.dev/icns/internal/utils"
+	"github.com/kroksys/icns/internal/binary"
+	"github.com/kroksys/icns/internal/utils"
 )
 
 // Encode writes a .icns file to the provided writer.

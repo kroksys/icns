@@ -20,7 +20,7 @@ import (
 	"io"
 	"io/ioutil"
 
-	"yrh.dev/icns/internal/codec"
+	"github.com/kroksys/icns/internal/codec"
 )
 
 type format struct {

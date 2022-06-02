@@ -27,7 +27,7 @@
 // if a longer non-repetitive pattern is seen.
 package rle
 
-import "yrh.dev/icns/internal/utils"
+import "github.com/kroksys/icns/internal/utils"
 
 type byteRec struct {
 	b byte

@@ -18,7 +18,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"yrh.dev/icns/internal/rle"
+	"github.com/kroksys/icns/internal/rle"
 )
 
 func TestStableRLE(t *testing.T) {

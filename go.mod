@@ -1,4 +1,4 @@
-module yrh.dev/icns
+module github.com/kroksys/icns
 
 go 1.15
 

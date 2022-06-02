@@ -14,7 +14,7 @@
 
 package icns
 
-import "yrh.dev/icns/internal/codec"
+import "github.com/kroksys/icns/internal/codec"
 
 const (
 	magic uint32 = ('i'<<24 | 'c'<<16 | 'n'<<8 | 's')

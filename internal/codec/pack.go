@@ -19,8 +19,8 @@ import (
 	"io"
 	"io/ioutil"
 
-	"yrh.dev/icns/internal/rle"
-	"yrh.dev/icns/internal/utils"
+	"github.com/kroksys/icns/internal/rle"
+	"github.com/kroksys/icns/internal/utils"
 )
 
 type packCodec struct{}
