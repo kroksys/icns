@@ -1,4 +1,4 @@
-# github.com/kroksys/go-icns
+# github.com/kroksys/icns
 
 This repository contains a library to handle the Apple Icon Image format, as described here:
 <https://en.wikipedia.org/wiki/Apple_Icon_Image_format>
