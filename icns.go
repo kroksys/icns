@@ -85,7 +85,7 @@ func (i *ICNS) ClosestResolution(r Resolution) (*Img, error) {
 	}
 
 	if result == nil {
-		return nil, fmt.Errorf("no valid image")
+		return i.highestResolutionAsset()
 	}
 	return result, nil
 }
