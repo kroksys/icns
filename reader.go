@@ -53,17 +53,17 @@ func readICNS(r binary.Reader, metaOnly bool) (*ICNS, error) {
 				continue
 			}
 
-			i, _, err := f.codec.Decode(sub, f.res)
+			i, _, err := f.Codec.Decode(sub, f.Res)
 			if err != nil {
 				continue
 			}
 
-			if f.compat < minCompat {
-				minCompat = f.compat
+			if f.Compat < minCompat {
+				minCompat = f.Compat
 			}
 
-			if f.compat > maxCompat {
-				maxCompat = f.compat
+			if f.Compat > maxCompat {
+				maxCompat = f.Compat
 			}
 
 			masks[code] = i
@@ -73,18 +73,18 @@ func readICNS(r binary.Reader, metaOnly bool) (*ICNS, error) {
 
 		if f, ok := supportedImageFormats[code]; ok {
 			asset := &Img{
-				format: f,
+				Format: f,
 			}
 
 			if !metaOnly {
-				i, enc, err := f.codec.Decode(sub, f.res)
+				i, enc, err := f.Codec.Decode(sub, f.Res)
 				if err != nil {
 					continue
 				}
 
 				// TODO: don't assume the mask is parsed first
-				if m := masks[f.combineCode]; m != nil {
-					r := image.Rect(0, 0, int(f.res), int(f.res))
+				if m := masks[f.CombineCode]; m != nil {
+					r := image.Rect(0, 0, int(f.Res), int(f.Res))
 
 					c := image.NewRGBA(r)
 
@@ -98,12 +98,12 @@ func readICNS(r binary.Reader, metaOnly bool) (*ICNS, error) {
 
 			assets = append(assets, asset)
 
-			if f.compat < minCompat {
-				minCompat = f.compat
+			if f.Compat < minCompat {
+				minCompat = f.Compat
 			}
 
-			if f.compat > maxCompat {
-				maxCompat = f.compat
+			if f.Compat > maxCompat {
+				maxCompat = f.Compat
 			}
 
 			continue

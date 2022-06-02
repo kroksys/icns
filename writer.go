@@ -30,25 +30,25 @@ func Encode(w io.Writer, i *ICNS) error {
 	var totalSize uint32 = 8
 
 	for _, a := range i.Assets {
-		encoder := a.format.codec.Encode
+		encoder := a.Format.Codec.Encode
 		if encoder == nil {
 			continue
 		}
 
 		// encode mask first
-		if a.format.combineCode != 0 {
+		if a.Format.CombineCode != 0 {
 			// the encoders expect an NRGBA instance
 			a.Image = utils.Img2NRGBA(a.Image)
 
 			// encode alpha channel as separated mask
-			mformat := supportedMaskFormats[a.format.combineCode]
+			mformat := supportedMaskFormats[a.Format.CombineCode]
 			buf := new(bytes.Buffer)
-			if err := mformat.codec.Encode(buf, a.Image); err != nil {
+			if err := mformat.Codec.Encode(buf, a.Image); err != nil {
 				return err
 			}
 			size := uint32(buf.Len()) + 8
 			buffers = append(buffers, buf)
-			types = append(types, mformat.code)
+			types = append(types, mformat.Code)
 			sizes = append(sizes, size)
 			totalSize += size
 		}
@@ -59,7 +59,7 @@ func Encode(w io.Writer, i *ICNS) error {
 		}
 		size := uint32(buf.Len()) + 8
 		buffers = append(buffers, buf)
-		types = append(types, a.format.code)
+		types = append(types, a.Format.Code)
 		sizes = append(sizes, size)
 		totalSize += size
 	}

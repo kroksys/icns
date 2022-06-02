@@ -23,22 +23,22 @@ import (
 	"github.com/kroksys/icns/internal/codec"
 )
 
-type format struct {
-	code        uint32
-	combineCode uint32
-	res         Resolution
-	compat      Compatibility
-	codec       codec.Codec
+type Format struct {
+	Code        uint32
+	CombineCode uint32
+	Res         Resolution
+	Compat      Compatibility
+	Codec       codec.Codec
 }
 
 var (
-	supportedImageFormats map[uint32]*format
-	supportedMaskFormats  map[uint32]*format
+	supportedImageFormats map[uint32]*Format
+	supportedMaskFormats  map[uint32]*Format
 )
 
 func init() {
-	supportedImageFormats = make(map[uint32]*format)
-	supportedMaskFormats = make(map[uint32]*format)
+	supportedImageFormats = make(map[uint32]*Format)
+	supportedMaskFormats = make(map[uint32]*Format)
 
 	legacyFormats := []struct {
 		code uint32
@@ -52,20 +52,20 @@ func init() {
 	}
 
 	for _, f := range legacyFormats {
-		supportedImageFormats[f.code] = &format{
-			code:        f.code,
-			combineCode: f.mask,
-			res:         f.res,
-			compat:      Allegro,
-			codec:       codec.PackCodec,
+		supportedImageFormats[f.code] = &Format{
+			Code:        f.code,
+			CombineCode: f.mask,
+			Res:         f.res,
+			Compat:      Allegro,
+			Codec:       codec.PackCodec,
 		}
 
-		supportedMaskFormats[f.mask] = &format{
-			code:        f.mask,
-			combineCode: f.code,
-			res:         f.res,
-			compat:      Allegro,
-			codec:       codec.MaskCodec,
+		supportedMaskFormats[f.mask] = &Format{
+			Code:        f.mask,
+			CombineCode: f.code,
+			Res:         f.res,
+			Compat:      Allegro,
+			Codec:       codec.MaskCodec,
 		}
 	}
 
@@ -78,11 +78,11 @@ func init() {
 	}
 
 	for _, f := range argbFormats {
-		supportedImageFormats[f.code] = &format{
-			code:   f.code,
-			res:    f.res,
-			compat: Cheetah, // not quite sure
-			codec:  codec.ARGBCodec,
+		supportedImageFormats[f.code] = &Format{
+			Code:   f.code,
+			Res:    f.res,
+			Compat: Cheetah, // not quite sure
+			Codec:  codec.ARGBCodec,
 		}
 	}
 
@@ -105,11 +105,11 @@ func init() {
 	}
 
 	for _, f := range modernFormats {
-		supportedImageFormats[f.code] = &format{
-			code:   f.code,
-			res:    f.res,
-			compat: f.compat,
-			codec:  codec.ImageCodec,
+		supportedImageFormats[f.code] = &Format{
+			Code:   f.code,
+			Res:    f.res,
+			Compat: f.compat,
+			Codec:  codec.ImageCodec,
 		}
 	}
 
@@ -137,8 +137,8 @@ func init() {
 			}
 			return image.Config{
 				ColorModel: color.NRGBAModel,
-				Width:      int(img.format.res),
-				Height:     int(img.format.res),
+				Width:      int(img.Format.Res),
+				Height:     int(img.Format.Res),
 			}, nil
 		})
 }

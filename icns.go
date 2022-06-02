@@ -24,7 +24,7 @@ import (
 
 type Img struct {
 	image.Image
-	format  *format
+	Format  *Format
 	Encoder string
 }
 
@@ -69,7 +69,7 @@ func NewICNS(opts ...Option) *ICNS {
 // ByResolution extracts an image from the icon, at the provided resolution.
 func (i *ICNS) ByResolution(r Resolution) (image.Image, error) {
 	for _, a := range i.Assets {
-		if a.format.res == r {
+		if a.Format.Res == r {
 			return a.Image, nil
 		}
 	}
@@ -80,8 +80,8 @@ func (i *ICNS) highestResolutionAsset() (*Img, error) {
 	var res Resolution
 	var img *Img
 	for _, a := range i.Assets {
-		if a.format.res > res {
-			res = a.format.res
+		if a.Format.Res > res {
+			res = a.Format.Res
 			img = a
 		}
 	}
@@ -114,16 +114,16 @@ func (i *ICNS) Add(im image.Image) error {
 
 	var supported bool
 	for _, f := range supportedImageFormats {
-		if f.compat < i.minCompat || f.compat > i.maxCompat {
+		if f.Compat < i.minCompat || f.Compat > i.maxCompat {
 			continue
 		}
 
-		if f.res == Resolution(dx) {
+		if f.Res == Resolution(dx) {
 			supported = true
 
 			var found bool
 			for _, a := range i.Assets {
-				if a.format == f {
+				if a.Format == f {
 					found = true
 					a.Image = im
 				}
@@ -132,7 +132,7 @@ func (i *ICNS) Add(im image.Image) error {
 			if !found {
 				i.Assets = append(i.Assets, &Img{
 					Image:  im,
-					format: f,
+					Format: f,
 				})
 			}
 		}
@@ -150,7 +150,7 @@ func (i *ICNS) Info() string {
 	buf := new(bytes.Buffer)
 	fmt.Fprintf(buf, "%d images:\n", len(i.Assets)+len(i.unsupportedCodes))
 	for _, a := range i.Assets {
-		fmt.Fprintf(buf, "[%s] %s image with resolution %d\n", codeRepr(a.format.code), a.Encoder, a.Image.Bounds().Dx())
+		fmt.Fprintf(buf, "[%s] %s image with resolution %d\n", codeRepr(a.Format.Code), a.Encoder, a.Image.Bounds().Dx())
 	}
 	for _, c := range i.unsupportedCodes {
 		fmt.Fprintf(buf, "[%s] unsupported image format\n", codeRepr(c))
