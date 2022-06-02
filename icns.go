@@ -66,6 +66,30 @@ func NewICNS(opts ...Option) *ICNS {
 	return i
 }
 
+// Finds and returns image that is closest to requested resolution.
+func (i *ICNS) ClosestResolution(r Resolution) (*Img, error) {
+	var res Resolution
+	var result *Img
+	isFound := false
+	for _, img := range i.Assets {
+		if img.Format.Res >= r {
+			if isFound {
+				if res < img.Format.Res {
+					continue
+				}
+			}
+			res = img.Format.Res
+			result = img
+			isFound = true
+		}
+	}
+
+	if result == nil {
+		return nil, fmt.Errorf("no valid image")
+	}
+	return result, nil
+}
+
 // ByResolution extracts an image from the icon, at the provided resolution.
 func (i *ICNS) ByResolution(r Resolution) (image.Image, error) {
 	for _, a := range i.Assets {
